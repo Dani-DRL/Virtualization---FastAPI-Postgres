@@ -34,9 +34,9 @@ docker compose down -v   # stop and clear the database
 
 ```json
 {
-  "name": "Study for the exam",
-  "content": "Catch up with the AWS SAA cert",
-  "deadline": "2026-08-30"
+  "name": "Example 1",
+  "content": "Description of the task",
+  "deadline": "2030-09-30"
 }
 ```
 
