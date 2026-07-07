@@ -1,8 +1,8 @@
 import _frozen_importlib
 from sqlalchemy.orm import Session
-from storage.crud.db_crud import get_task_by_id, add_task, get_overdue_task, mark_as_completed, delete_task
+from storage.crud.db_crud import get_task_by_id, add_task, get_overdue_task, mark_as_completed, delete_task, get_all_task
 from ..schema.tasks import TaskCreate
-from api.exceptions.httpexception import NotFoundException, BadRequestException
+from api.exceptions.httpexception import NotFoundException, BadRequestException, UnprocessableEntityException
 from storage.entities import db_def as models
 import datetime
 
@@ -19,6 +19,9 @@ class TaskManager:
         if not hasattr(self, '_initialized'):
             self._initialized = True
 
+    async def get_all_tasks(self, db: Session):
+        return get_all_task(db)
+
     async def get_task(self, db: Session, task_id: int):
         task_retrieved = get_task_by_id(db, task_id=task_id)
         if task_retrieved:
@@ -28,7 +31,7 @@ class TaskManager:
     
     async def create_task(self, db : Session, task: TaskCreate):
         if task.deadline < datetime.date.today():
-            raise BadRequestException(extra="Deadline cannot be in the past")
+            raise UnprocessableEntityException(extra="Deadline cannot be in the past")
         task_to_add = models.TaskEntity(
             name=task.name,
             content=task.content,

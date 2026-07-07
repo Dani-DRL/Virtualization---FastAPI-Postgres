@@ -11,9 +11,9 @@ router: APIRouter = APIRouter()
 
 Manager = TaskManager()
 
-@router.get("/")
-async def greeting():
-    return {"hello": "Welcome to Daniel FastAPI APP"}
+@router.get("/", response_model=List[Task])
+async def get_all_tasks_rt(db: Session = Depends(get_db)):
+    return await Manager.get_all_tasks(db=db)
 
 @router.get("/overdue", response_model=List[Task])
 async def get_overdue_rt(db : Session =Depends(get_db)):

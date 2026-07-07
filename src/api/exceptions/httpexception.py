@@ -37,6 +37,10 @@ class TimeoutException(CustomException):
     status_code = 408
     base_msg = "Request Timeout"
 
+class UnprocessableEntityException(CustomException):
+    status_code = 422
+    base_msg = "Unprocessable Entity"
+
 class InternalServerErrorException(CustomException):
     status_code = 500
     base_msg = "Internal Server Error"

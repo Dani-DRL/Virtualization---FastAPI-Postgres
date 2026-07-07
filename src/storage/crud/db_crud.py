@@ -2,6 +2,9 @@ from sqlalchemy.orm import Session
 from ..entities import db_def as models
 import datetime
 
+def get_all_task(db: Session):
+    return db.query(models.TaskEntity).all()
+
 def get_task_by_id(db: Session, task_id:int):
     return db.query(models.TaskEntity).filter(models.TaskEntity.id == task_id).first()
 
